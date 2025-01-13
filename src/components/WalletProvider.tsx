@@ -13,8 +13,12 @@ import {
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 export const WalletContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const endpoint = useMemo(() => clusterApiUrl('mainnet-beta'), []);
-    const wallets = useMemo(
+  const endpoint = useMemo(() => {
+    const url = clusterApiUrl('mainnet-beta');
+    // Force HTTPS
+    return url.replace('http://', 'https://');
+  }, []);
+  const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
             new SolflareWalletAdapter(),
